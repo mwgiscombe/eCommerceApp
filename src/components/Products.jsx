@@ -19,6 +19,7 @@ import { fab } from '@fortawesome/free-brands-svg-icons'
 library.add(fas, far, fab)
 import Carousel from 'react-bootstrap/Carousel';
 import './Products.css'
+import { Container } from "react-bootstrap";
 
 
 
@@ -29,11 +30,22 @@ library.add(fas, far, fab)
 
 
 
-function Products({ products, categories, selectedCats, setSelectedCats, filteredProducts }){
-   
-    
+function Products({ products, categories, selectedCats, setSelectedCats, filteredProducts, setFilteredProducts, doubleFiltered, setDoubleFiltered}){
+     const minPrice = Math.min(...products.map(p=>p.price))
+    const maxPrice = Math.max(...products.map(p=>p.price))
+    const [priceSlider, setPriceSlider] = useState(maxPrice)
+  console.log(products)
+  useEffect(() => {
+  if (products.length > 0) {
+    const prices = products.map(p => p.price)
+    const min = Math.min(...prices)
+    const max = Math.max(...prices)
 
-
+    setMinPrice(min)
+    setMaxPrice(max)
+    setPriceSlider(max)   // initialize slider AFTER data loads
+  }
+}, [products])
    
     
 
@@ -55,11 +67,16 @@ function Products({ products, categories, selectedCats, setSelectedCats, filtere
     }
 
     function searchProducts(i){
-        const search = i.target.value 
+        const search = i.target.value.toLowerCase()
+        const results = products.filter(product=> product.title.toLowerCase().includes(search))
         filteredProducts.filter(product=> product.title.includes(search))
+        if(search.length >0){
+        setFilteredProducts(results)}else{
+            setFilteredProducts(products)
+        }
     
     }
-    console.log(filteredProducts)
+   
 
     return(
         <>
@@ -97,30 +114,42 @@ function Products({ products, categories, selectedCats, setSelectedCats, filtere
             <Form>
         <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Email address</Form.Label>
-        <Form.Control type="text" placeholder="What are you looking for?" onChange={(i)=>{searchProducts(i)}} />
+        <Form.Control type="text" placeholder="What are you looking for?" onInput={(i)=>{searchProducts(i)}} />
         
       </Form.Group>
       </Form>
         </div>
 
     </div>
-        <div className="d-flex gap-2"><div>Search Results: {filteredProducts.length}</div>
-       {selectedCats.length ? selectedCats.map(c=>(
-        <Badge className="p-2 d-flex gap-2 my-2 mx-1" bg="info">{c}<div onClick={()=>removeCat(c)}><FontAwesomeIcon icon={['far', 'circle-xmark']} />
-        </div> </Badge>
-            )): ''}</div>
-            <div> 
-                <Form.Select aria-label="Default select example"
+        
+        <Container fluid>
+   <Row className='my-2 mx-auto'>
+    <Col xs={3}>
+    Filter Products
+    <hr></hr>
+    <div className="container px-2">
+            <Form.Select aria-label="Default select example"
                 onChange={(c)=>{selectCategory(c)}}>
             <option>Categories</option>
             {categories.map((c)=>(
                 <option key={c} value={c}>{c}</option>
             ))}
-          </Form.Select></div>
-          {selectedCats.length ? (<div onClick={clearCats}>clear</div>): ''}
-   <Row className='my-2 mx-auto'>
-        {filteredProducts.length ? filteredProducts.map(product =>(
-     <Link to={`/productPage/${product.id}`} className="col-3 mx-auto my-2"><div><Card className="mx-auto" style={{ width: '18rem' }}>
+          </Form.Select>
+            <div className="d-flex gap-1 justify-content-start flex-row flex-wrap">{selectedCats.length ? selectedCats.map(c=>(
+            <Badge className="p-2 d-flex gap-2 my-2 mx-1" bg="info">{c}<div onClick={()=>removeCat(c)}><FontAwesomeIcon icon={['far', 'circle-xmark']} />
+            </div> </Badge>
+            )): ''} 
+            {selectedCats.length > 1 ? (<Badge  onClick={clearCats} bg="danger"><FontAwesomeIcon icon={['far', 'circle-xmark']} /></Badge>): ''}
+</div>
+        </div>
+        {priceSlider}
+            
+    </Col>
+    <Col xs={8}>
+    <Row>
+    <div>Search Results: {doubleFiltered.length}</div>
+        {doubleFiltered.length ? doubleFiltered.map(product =>(
+     <Link to={`/productPage/${product.id}`} className="col-4 mx-auto my-2"><div><Card className="mx-auto" style={{ width: '18rem' }}>
       <Card.Img variant="top" src={product.images[0].url} />
       <Card.Body>
         <Card.Title style={{minHeight: '48px'}}>{product.title}</Card.Title>
@@ -132,10 +161,24 @@ function Products({ products, categories, selectedCats, setSelectedCats, filtere
       </Card.Body>
     </Card></div></Link> 
     )):(
-        <p>No products exist</p>
+        filteredProducts.map(product =>(
+     <Link to={`/productPage/${product.id}`} className="col-3 mx-auto my-2"><div><Card className="mx-auto" style={{ width: '18rem' }}>
+      <Card.Img variant="top" src={product.images[0].url} />
+      <Card.Body>
+        <Card.Title style={{minHeight: '48px'}}>{product.title}</Card.Title>
+        <Card.Text>
+          ${product.price}
+        </Card.Text>
+        <Button variant="warning" onClick={()=> addToCart(product.record.id)} className='w-100'>Add to Cart</Button>
+        <Button variant="primary" className = 'w-100'>Buy Now</Button>
+      </Card.Body>
+    </Card></div></Link> 
+    ))
     )}
     </Row>
-        
+    </Col>
+    </Row>
+        </Container>
         
         
         

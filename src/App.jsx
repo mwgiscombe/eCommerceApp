@@ -13,23 +13,30 @@ function App() {
   const [products, setProducts] = useState([])
   const [categories, setCategories] = useState([])
   const [selectedCats, setSelectedCats] = useState([])
-  const [filteredProducts, setFilteredProducts] = useState([])
+  const [filteredProducts, setFilteredProducts] = useState(products)
   const [cartItems, setCartItems] = useState([])
   const [mainImage, setMainImage] = useState(0)
   const [itemVar, setItemVar] = useState('')
   const [cartTotal, setCartTotal] = useState(0)
   const [balance, setBalance] = useState(50)
+  const[doubleFiltered, setDoubleFiltered] = useState(products)
+
+
+  useEffect(() => {
+  setFilteredProducts(products)
+}, [products])
+
   
   
 
           
 useEffect(() => {
   if (selectedCats.length === 0) {
-    setFilteredProducts(products);
+    setDoubleFiltered(filteredProducts);
   } else {
-    setFilteredProducts(products.filter(p => selectedCats.includes(p.category)));
+    setDoubleFiltered(filteredProducts.filter(p => selectedCats.includes(p.category)));
   }
-}, [selectedCats, products]);
+}, [selectedCats, filteredProducts]);
 
 
   useEffect(() => {
@@ -108,7 +115,7 @@ function removeFromCart(id, vari){
     <Routes>
       <Route path='/productPage/:id' element={<ProductPage products={products} addToCart={addToCart} cartItems={cartItems} setCartItems={setCartItems} itemVar={itemVar} setItemVar={setItemVar} setMainImage={setMainImage} mainImage={mainImage}/>} />
 
-      <Route path="/" element={ <Products products={products} categories={categories} selectedCats={selectedCats} filteredProducts={filteredProducts} setSelectedCats={setSelectedCats} cartItems = {cartItems} setCartItems={setCartItems} itemVar={itemVar} setItemVar={setItemVar} setMainImage={setMainImage} mainImage={mainImage} /> } />
+      <Route path="/" element={ <Products products={products} categories={categories} selectedCats={selectedCats} filteredProducts={filteredProducts} setSelectedCats={setSelectedCats} cartItems = {cartItems} setCartItems={setCartItems} itemVar={itemVar} setItemVar={setItemVar} setMainImage={setMainImage} mainImage={mainImage} setFilteredProducts={setFilteredProducts} doubleFiltered={doubleFiltered} setDoubleFiltered={setDoubleFiltered} /> } />
 
       <Route path='/cart' element={<Cart products={products} addToCart={addToCart} cartItems={cartItems} setCartItems={setCartItems} itemVar={itemVar} setItemVar={setItemVar} setMainImage={setMainImage} mainImage={mainImage} removeFromCart={removeFromCart} cartTotal={cartTotal} setCartTotal={setCartTotal} balance={balance} />} />
     </Routes>
