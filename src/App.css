@@ -1,4 +1,35 @@
-body{font-family: Nunito;}
+body{font-family: Nunito; 
+    background: linear-gradient(135deg, #E0F7FA, #80DEEA, #4DD0E1);
+}
+#root{min-height: 100vh;}
 
 .selectedCats{width: auto; display: inline-block}
 .cartImage img{width: 100px;}
+.shoppingCart img{width: 60px}
+.shoppingCart .cartBadge{position: absolute;border-radius: 50%; transition: .35s ease-in-out;}
+.move{transform: translateX(5px);transition: .30s ease-in;}
+.favoritesButton{position: fixed; bottom: -5px; left: 0; z-index: 99999999; transition: bottom .3s ease-in-out }
+.favoritesButton button{background-color: #FFB6D9; border: 0px; border-radius: 5px 5px 0 0;}
+.favoritesButton button:hover{background-color: #DDA0DD;}
+.favoritesButton img{max-width: 30px;}
+.raised{bottom: 29vh; }
+.offcanvas.offcanvas-bottom{height: 30vh; z-index: 9999999999; background: linear-gradient(135deg, #FFB6D9, #E6B8FF, #DDA0DD);border: 0px}
+.favoritesPic{max-height: 13vh;}
+.favoritesCard{border: 1px solid lightblue; border-radius: 10px;}
+.favoritesCard:hover{transform: scale(1.001); box-shadow: 1px 1px 10px gray;}
+.scroll-content { -ms-overflow-style: none; scrollbar-width: none; } 
+.scroll-btn { background: white; border: 1px solid #ccc; border-radius: 50%; width: 40px; height: 40px; font-size: 24px; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: all .2s ease; position: absolute; top: 50%; z-index: 99999999999; } 
+.scroll-btn:hover { background: black; color: white; }
+.scroll-btn.right{right: 30px}
+.scroll-btn.left{left: 30px}
+.scroll-content{overflow-x: auto; scroll-behavior: smooth; white-space: nowrap;}
+.offcanvas-backdrop.show {z-index: 999999;}
+.navbar{background-color: white !important;}
+.qty_selector{width: 100px}
+.qty_container Button{width: 30px; height: 30px;}
+.gradientBG{background: linear-gradient(135deg, #FFA502 0%, #FF6348 100%) !important; border: 0px}
+.gradientBG:hover{box-shadow: 2px 2px 5px gray;}
+.price{width: auto; max-width: 80px; aspect-ratio: 1/1; color: white}
+.userImage{width: 40px}
+.logo{width: 100px}
+.userImage1{width: 20px}

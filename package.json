@@ -11,16 +11,21 @@
   },
   "dependencies": {
     "'": "file:awesome.me/kit-648b5b222a@latest'",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
     "@fortawesome/fontawesome-free": "^7.1.0",
     "@fortawesome/fontawesome-svg-core": "^7.1.0",
     "@fortawesome/free-brands-svg-icons": "^7.1.0",
     "@fortawesome/free-regular-svg-icons": "^7.1.0",
     "@fortawesome/free-solid-svg-icons": "^7.1.0",
     "@fortawesome/react-fontawesome": "^3.1.1",
+    "@mui/material": "^7.3.7",
     "bootstrap": "^5.3.8",
+    "rc-slider": "^9.7.5",
     "react": "^19.2.0",
     "react-bootstrap": "^2.10.10",
     "react-dom": "^19.2.0",
+    "react-range": "^1.10.0",
     "react-router-dom": "^7.12.0"
   },
   "devDependencies": {

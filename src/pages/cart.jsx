@@ -3,6 +3,7 @@ import Table from 'react-bootstrap/Table'
 import Image from 'react-bootstrap/Image'
 import {Link} from 'react-router-dom'
 import Form from 'react-bootstrap/Form'
+import { Container, Row, Col, Button } from "react-bootstrap";
 
 
 function Cart({products, addToCart, cartItems, setCartItems, itemVar, setItemVar, setMainImage, mainImage, removeFromCart, cartTotal, setCartTotal, balance}) {
@@ -38,16 +39,22 @@ function Cart({products, addToCart, cartItems, setCartItems, itemVar, setItemVar
     
     console.log('items: ', cartItems)
   return (
-    <div>
-        
+    <Container>
+    <Row>
+        <Col xs={11} lg={8} className='mx-auto bg-white rounded p-3 my-4 mx-auto'>
+        {cartItems.length > 0 ? <>
         <Table striped bordered hover>
             <thead>
                 <tr>
-                <th></th>
-                <th>img</th>
+                <th style={{
+                    width: '1%'
+                }}></th>
+                <th>Img</th>
                 <th>Item</th>
-                <th>qty</th>
-                <th>cost</th>
+                <th style={{
+                    width: '15%'
+                }}>Qty</th>
+                <th>Cost</th>
                 
                 </tr>
             </thead>
@@ -64,6 +71,7 @@ function Cart({products, addToCart, cartItems, setCartItems, itemVar, setItemVar
                 <td>
                 
                     <Form.Control
+                   
                         type="Number"
                         id="qtyInput"
                         aria-describedby="passwordHelpBlock"
@@ -76,21 +84,25 @@ function Cart({products, addToCart, cartItems, setCartItems, itemVar, setItemVar
             </tr>
         ))}
   <tr>
-            <td>Subtotal: ${(cartTotal).toFixed(2)}</td>
+            <td colSpan={5} className='text-end'>Subtotal: ${(cartTotal).toFixed(2)}</td>
         </tr>
         <tr>
-            <td>Tax: ${(tax).toFixed(2)}</td>
+            <td colSpan={5} className='text-end'>Tax: ${(tax).toFixed(2)}</td>
         </tr>
         <tr>
-            <td>Total: ${(bigTotal).toFixed(2)}</td>
+            <td colSpan={5} className='text-end'>Total: ${(bigTotal).toFixed(2)}</td>
         </tr>
         </tbody>
       
         </Table>
-        <button disabled = {balance < cartTotal || cartItems.length === 0}>Checkout</button>
-        {balance < bigTotal && <div>Oops, you need ${(bigTotal - balance).toFixed(2)} more to checkout</div>}
+        <Button variant="warning" disabled = {balance < cartTotal || cartItems.length === 0}>Checkout</Button>
+       <h5 className='my-2 rounded shadow w-50 p-3'>My Current Balance: ${balance}</h5> 
+        {balance < bigTotal && <div>Oops, you need ${(bigTotal - balance).toFixed(2)} more to checkout</div>} </>: <h4 className="text-center my-2">Your Cart is Empty!</h4>}
+        </Col>
+       
         
-    </div>
+    </Row>
+    </Container>
 
   )
 }

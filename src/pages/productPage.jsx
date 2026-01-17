@@ -47,15 +47,20 @@ const [qty, setQty] = useState(1)
 
   return (
     <Container className='my-3'>
-      <Link to='/cart'>Carttttt</Link>
-      <Row className='d-flex'>
-        <div className='w-25'>
-        <Image src={product?.images?.[mainImage]?.url} fluid /> 
+      
+      <Row className='d-flex justify-content-center align-items-center'>
+        <Col xs={12} lg={4}>
+        <div className='d-flex justify-content-center align-items-center shadow'>
+        <Image className='rounded' src={product?.images?.[mainImage]?.url} fluid /> 
         </div>
-        <div className='w-75'>
-          <h1>{product.title}</h1>
-          <p>{product.description}</p>
-          <Form.Select aria-label="Default select example"
+        </Col>
+        <Col xs={12} lg={8}>
+        <div className='d-flex flex-column align-items-xs-center align-items-lg-start text-lg-center'>
+          <div class='d-flex'><h1>{product.title}</h1>
+          <h5 className='price p-3 rounded text-dark shadow text-white d-flex justify-content-center align-items-center mx-3'>${product.price}</h5></div>
+          <p className='text-lg-start text-xs-center'>{product.description}</p><hr></hr>
+          <h6>Select an option</h6>
+          <Form.Select aria-label="Default select example" className='w-50 mb-4 mx-xs-auto'
                onChange={(o)=>{changeOption(o)}}
               
                 >
@@ -64,17 +69,28 @@ const [qty, setQty] = useState(1)
                 <option key={o.title} value={o.title}>{o.title}</option>
             ))}
           </Form.Select>
-          <h5>${product.price}</h5>
-          <Form.Control
+         
+
+        <div className='d-flex flex-row gap-2'>
+        <div className='qty_container d-flex flex-row gap-2 justify-content-center align-items-center'>
+        <Button onClick = {()=>{setQty(qty + 1)}} className='d-flex justify-content-center align-items-center' variant='secondary'>+</Button>
+          <Form.Control className='qty_selector'
         type="number"
         id="quantityProduct"
-        Value = '1'
+        Value = {qty}
         min='1'
         onChange = {(o)=>{setQty(Number(o.target.value))}}
-      /><Button variant='warning' onClick={()=>addToCart(product.id, itemVar, qty)}>Add to Cart</Button>
+      />
+      <Button onClick = {()=>{if(qty> 0){setQty(qty - 1)}}} className='d-flex justify-content-center align-items-center' variant='secondary'>-</Button>
+      </div>
+      <Button className='btn productButton' onClick={()=>addToCart(product.id, itemVar, qty)}>Add to Cart</Button>
+      </div>
+
+
         </div>
+        </Col>
       </Row>
-      <Row>
+      <Row className='my-5'>
         <h4>Reviews ({product.reviews.length}) {'⭐'.repeat(stars)}</h4>
         {product.reviews.map(r=>(<div className='rounded bg-light my-2 p-3'>
           <div>{'⭐'.repeat(r.rating)}</div>
